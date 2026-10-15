@@ -4,964 +4,822 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>DFA Automata</title>
-
+    <title>DFA Automata Designer — Visualize • Simulate • Learn • Build</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <!-- =====================================================
-         TOP BAR
+         TOPBAR (COMPACT FUTURISTIC HEADER)
     ====================================================== -->
-
     <header class="topbar">
-
         <div class="topbar-left">
-
-            <button
-                id="menuBtn"
-                class="icon-button menu-button"
-                title="Open navigation"
-            >
-                ☰
+            <button id="menuBtn" class="icon-button menu-button" title="Open navigation drawer" aria-label="Open navigation">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </button>
 
-            <div class="brand-icon">
-                δ
+            <!-- FUTURISTIC ATOM LOGO -->
+            <div class="brand-icon" title="DFA Automata">
+                <svg width="26" height="26" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="7" fill="#ff38a8" filter="drop-shadow(0 0 6px #ff38a8)" />
+                    <ellipse cx="50" cy="50" rx="42" ry="16" stroke="url(#logoG1)" stroke-width="3" transform="rotate(-30 50 50)" />
+                    <ellipse cx="50" cy="50" rx="42" ry="16" stroke="url(#logoG2)" stroke-width="3" transform="rotate(30 50 50)" />
+                    <ellipse cx="50" cy="50" rx="42" ry="16" stroke="url(#logoG3)" stroke-width="3" transform="rotate(90 50 50)" />
+                    <circle cx="20" cy="36" r="3.5" fill="#38bdf8" />
+                    <circle cx="80" cy="64" r="3.5" fill="#ff6bc5" />
+                    <defs>
+                        <linearGradient id="logoG1" x1="8" y1="50" x2="92" y2="50">
+                            <stop offset="0%" stop-color="#ff38a8" />
+                            <stop offset="100%" stop-color="#8a4dff" />
+                        </linearGradient>
+                        <linearGradient id="logoG2" x1="8" y1="50" x2="92" y2="50">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#ff38a8" />
+                        </linearGradient>
+                        <linearGradient id="logoG3" x1="8" y1="50" x2="92" y2="50">
+                            <stop offset="0%" stop-color="#8a4dff" />
+                            <stop offset="100%" stop-color="#38bdf8" />
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
 
             <div class="brand-text">
-                <h1>DFA Automata</h1>
-                <span>Interactive Finite Automaton Designer</span>
+                <h1>DFA Automata Designer</h1>
+                <span>Visualize &bull; Simulate &bull; Learn &bull; Build</span>
             </div>
-
         </div>
 
-        <div class="topbar-right">
-
-            <div
-                id="systemStatus"
-                class="system-status"
-            >
-                <span class="status-light"></span>
-                <span id="systemStatusText">
-                    Ready to build
-                </span>
-            </div>
-
-            <button
-                id="themeBtn"
-                class="icon-button"
-                title="Toggle theme"
-            >
-                ☾
+        <!-- HEADER NAVIGATION PILLS -->
+        <nav class="topbar-nav" aria-label="Main Navigation">
+            <button id="navWorkspaceBtn" class="topbar-nav-pill active">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Workspace</span>
             </button>
 
-        </div>
-
-    </header>
-
-
-    <!-- =====================================================
-         NAVIGATION DRAWER
-    ====================================================== -->
-
-    <div
-        id="menuOverlay"
-        class="menu-overlay"
-    ></div>
-
-    <aside
-        id="navigationDrawer"
-        class="navigation-drawer"
-    >
-
-        <div class="drawer-header">
-
-            <div>
-                <span class="section-kicker">
-                    NAVIGATION
-                </span>
-
-                <h2>
-                    Control Center
-                </h2>
-            </div>
-
-            <button
-                id="closeMenuBtn"
-                class="icon-button"
-            >
-                ×
+            <button id="navExamplesBtn" class="topbar-nav-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>Examples</span>
             </button>
 
-        </div>
-
-
-        <nav class="drawer-nav">
-
-            <button
-                class="nav-item"
-                data-target="workspaceSection"
-            >
-                <span class="nav-icon">⌘</span>
-
-                <span>
-                    <strong>DFA Workspace</strong>
-                    <small>Build your automaton</small>
-                </span>
+            <button id="navProblemBtn" class="topbar-nav-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <path d="M15 4V2"></path>
+                    <path d="M15 16v-2"></path>
+                    <path d="M8 9h2"></path>
+                    <path d="M20 9h2"></path>
+                    <path d="M17.8 11.8 19 13"></path>
+                    <path d="M15 9h0"></path>
+                    <path d="M17.8 6.2 19 5"></path>
+                    <path d="m3 21 9-9"></path>
+                    <path d="M12.2 6.2 11 5"></path>
+                </svg>
+                <span>Build from Problem</span>
             </button>
 
-
-            <button
-                class="nav-item"
-                data-target="alphabetSection"
-            >
-                <span class="nav-icon">Σ</span>
-
-                <span>
-                    <strong>Alphabet</strong>
-                    <small>Define input symbols</small>
-                </span>
+            <button id="navValidateBtn" class="topbar-nav-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>Validate</span>
             </button>
 
-
-            <button
-                class="nav-item"
-                data-target="testingSection"
-            >
-                <span class="nav-icon">▶</span>
-
-                <span>
-                    <strong>Input Testing</strong>
-                    <small>Test your DFA</small>
-                </span>
+            <button id="navHistoryBtn" class="topbar-nav-pill">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>History</span>
             </button>
-
-
-            <button
-                class="nav-item"
-                data-target="executionSection"
-            >
-                <span class="nav-icon">⌁</span>
-
-                <span>
-                    <strong>Execution Engine</strong>
-                    <small>View DFA execution</small>
-                </span>
-            </button>
-
-
-            <button
-                class="nav-item"
-                data-target="transitionSection"
-            >
-                <span class="nav-icon">→</span>
-
-                <span>
-                    <strong>Transition Table</strong>
-                    <small>View transitions</small>
-                </span>
-            </button>
-
-
-            <button
-                class="nav-item"
-                data-target="controlsSection"
-            >
-                <span class="nav-icon">⌘</span>
-
-                <span>
-                    <strong>Designer Controls</strong>
-                    <small>Alternative controls</small>
-                </span>
-            </button>
-
-
-            <button
-                class="nav-item"
-                data-target="activitySection"
-            >
-                <span class="nav-icon">≋</span>
-
-                <span>
-                    <strong>Activity History</strong>
-                    <small>View recent actions</small>
-                </span>
-            </button>
-
         </nav>
 
+        <div class="topbar-right">
+            <!-- COMPACT THEME TOGGLE SWITCH PILL -->
+            <div id="themeTogglePill" class="theme-pill" title="Toggle dark / light theme" role="button" tabindex="0">
+                <span class="theme-icon moon-icon">☾</span>
+                <span class="theme-icon sun-icon">☼</span>
+                <div class="toggle-slider">
+                    <span class="slider-thumb"></span>
+                </div>
+            </div>
 
-        <div class="drawer-actions">
-
-            <button
-                id="drawerUndoBtn"
-                class="secondary-button"
-            >
-                ↶ Undo
+            <!-- SETTINGS BUTTON -->
+            <button id="settingsBtn" class="icon-button" title="Settings" aria-label="Settings">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
             </button>
-
-            <button
-                id="drawerRedoBtn"
-                class="secondary-button"
-            >
-                ↷ Redo
-            </button>
-
-            <button
-                id="drawerThemeBtn"
-                class="secondary-button"
-            >
-                ☾ Toggle Theme
-            </button>
-
-            <button
-                id="drawerClearBtn"
-                class="danger-button"
-            >
-                × Clear Automaton
-            </button>
-
         </div>
-
-    </aside>
-
+    </header>
 
     <!-- =====================================================
-         MAIN APPLICATION
+         NAVIGATION DRAWER (MOBILE / RESPONSIVE)
     ====================================================== -->
+    <div id="menuOverlay" class="menu-overlay"></div>
 
+    <aside id="navigationDrawer" class="navigation-drawer">
+        <div class="drawer-header">
+            <div>
+                <span class="section-kicker">NAVIGATION</span>
+                <h2>Control Center</h2>
+            </div>
+            <button id="closeMenuBtn" class="icon-button" aria-label="Close navigation">&times;</button>
+        </div>
+
+        <nav class="drawer-nav">
+            <button class="nav-item" data-target="workspaceSection">
+                <span class="nav-icon">⌘</span>
+                <span><strong>DFA Workspace</strong><small>Build &amp; view canvas</small></span>
+            </button>
+            <button class="nav-item" data-target="alphabetSection">
+                <span class="nav-icon">Σ</span>
+                <span><strong>Alphabet</strong><small>Define input symbols</small></span>
+            </button>
+            <button class="nav-item" data-target="examplesSection">
+                <span class="nav-icon">✎</span>
+                <span><strong>Examples Library</strong><small>Preset DFA models</small></span>
+            </button>
+            <button class="nav-item" data-target="problemSection">
+                <span class="nav-icon">🪄</span>
+                <span><strong>Build from Problem</strong><small>Auto DFA generator</small></span>
+            </button>
+            <button class="nav-item" data-target="testingSection">
+                <span class="nav-icon">▶</span>
+                <span><strong>Input Testing</strong><small>Simulate &amp; trace</small></span>
+            </button>
+            <button class="nav-item" data-target="validationSection">
+                <span class="nav-icon">✓</span>
+                <span><strong>DFA Validation</strong><small>Completeness &amp; rules</small></span>
+            </button>
+            <button class="nav-item" data-target="activitySection">
+                <span class="nav-icon">≋</span>
+                <span><strong>Activity History</strong><small>Recent actions log</small></span>
+            </button>
+        </nav>
+
+        <div class="drawer-actions">
+            <button id="drawerUndoBtn" class="secondary-button">↶ Undo</button>
+            <button id="drawerRedoBtn" class="secondary-button">↷ Redo</button>
+            <button id="drawerThemeBtn" class="secondary-button">☾ Toggle Theme</button>
+            <button id="drawerClearBtn" class="danger-button">&times; Clear Automaton</button>
+        </div>
+    </aside>
+
+    <!-- =====================================================
+         MAIN THREE-COLUMN WORKSPACE
+    ====================================================== -->
     <main class="application">
 
         <!-- =================================================
-             LEFT COLUMN
+             LEFT COLUMN: CONFIGURATION, EXAMPLES, BUILD & PROJECT
         ================================================== -->
-
         <aside class="left-column">
 
-            <!-- AUTOMATON INFORMATION -->
-
-            <section
-                id="informationSection"
-                class="panel information-panel"
-            >
-
-                <div class="panel-heading">
-
-                    <div>
-                        <span class="section-kicker">
-                            AUTOMATION
-                        </span>
-
-                        <h2>
-                            Information
-                        </h2>
-                    </div>
-
-                    <span class="panel-icon">
-                        δ
-                    </span>
-
+            <!-- PANEL 1: INPUT DEFINITION -->
+            <section id="alphabetSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <span>INPUT DEFINITION</span>
                 </div>
 
-
-                <div class="stats-grid">
-
-                    <div class="stat-card">
-                        <span>STATES</span>
-                        <strong id="stateCount">0</strong>
-                        <small>Automaton nodes</small>
+                <div class="field-group">
+                    <label for="alphabet">Alphabet</label>
+                    <div class="input-with-button-row">
+                        <input type="text" id="alphabet" value="0,1" placeholder="e.g. 0,1" autocomplete="off" spellcheck="false">
+                        <button id="setAlphabetBtn" class="gradient-button compact-btn">Set Alphabet</button>
                     </div>
-
-                    <div class="stat-card">
-                        <span>TRANSITIONS</span>
-                        <strong id="transitionCount">0</strong>
-                        <small>Defined connections</small>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>START</span>
-                        <strong id="startStateInfo">—</strong>
-                        <small>Initial state</small>
-                    </div>
-
-                    <div class="stat-card">
-                        <span>FINAL</span>
-                        <strong id="finalStateInfo">—</strong>
-                        <small>Accepting states</small>
-                    </div>
-
                 </div>
 
-
-                <div class="alphabet-info-card">
-
-                    <span>ALPHABET</span>
-
-                    <strong id="alphabetInfo">
-                        —
-                    </strong>
-
-                    <small id="alphabetInfoCount">
-                        0 input symbols
-                    </small>
-
+                <div id="alphabetDisplay" class="alphabet-status-indicator">
+                    <span class="check-icon">✓</span>
+                    <span id="alphabetDisplayText">Alphabet: { 0, 1 }</span>
                 </div>
-
-
-                <div
-                    id="dfaStatus"
-                    class="dfa-status ready"
-                >
-
-                    <span class="status-dot"></span>
-
-                    <div>
-                        <strong>READY</strong>
-                        <small>Ready to build</small>
-                    </div>
-
-                </div>
-
             </section>
 
-
-            <!-- ACTIVITY HISTORY -->
-
-            <section
-                id="activitySection"
-                class="panel activity-panel"
-            >
-
-                <div class="panel-heading">
-
-                    <div>
-                        <span class="section-kicker">
-                            SYSTEM LOG
-                        </span>
-
-                        <h2>
-                            Activity History
-                        </h2>
-                    </div>
-
-                    <span class="panel-icon">
-                        ≋
-                    </span>
-
+            <!-- PANEL 2: STATE NAMING -->
+            <section id="stateNamingSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <circle cx="12" cy="12" r="3" fill="currentColor"></circle>
+                    </svg>
+                    <span>STATE NAMING</span>
                 </div>
 
-                <div
-                    id="activityHistory"
-                    class="activity-history"
-                >
+                <div class="field-group">
+                    <label for="stateNamingTrigger">Label Style</label>
+                    <div class="custom-dropdown" id="stateNamingDropdown">
+                        <button type="button" class="dropdown-trigger" id="stateNamingTrigger" aria-haspopup="listbox" aria-expanded="false" title="Choose state naming format">
+                            <span class="dropdown-trigger-label" id="stateNamingLabel">q0, q1, q2...</span>
+                            <span class="dropdown-chevron" aria-hidden="true">▾</span>
+                        </button>
 
-                    <div class="empty-history">
-                        No activity yet.
+                        <div class="dropdown-menu" id="stateNamingMenu" role="listbox" aria-labelledby="stateNamingTrigger">
+                            <div class="dropdown-option selected" data-value="q" role="option" aria-selected="true" tabindex="0">
+                                <span class="option-icon">𝑞</span>
+                                <span class="option-text">q0, q1, q2...</span>
+                                <span class="option-check">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="letters" role="option" aria-selected="false" tabindex="0">
+                                <span class="option-icon">A</span>
+                                <span class="option-text">A, B, C, D...</span>
+                                <span class="option-check">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="lowercase" role="option" aria-selected="false" tabindex="0">
+                                <span class="option-icon">a</span>
+                                <span class="option-text">a, b, c, d...</span>
+                                <span class="option-check">✓</span>
+                            </div>
+                            <div class="dropdown-option" data-value="custom" role="option" aria-selected="false" tabindex="0">
+                                <span class="option-icon">✎</span>
+                                <span class="option-text">Custom</span>
+                                <span class="option-check">✓</span>
+                            </div>
+                        </div>
+
+                        <select id="stateNamingMode" class="visually-hidden-select" tabindex="-1" aria-hidden="true">
+                            <option value="q" selected>q0, q1, q2...</option>
+                            <option value="letters">A, B, C, D...</option>
+                            <option value="lowercase">a, b, c, d...</option>
+                            <option value="custom">Custom</option>
+                        </select>
                     </div>
-
                 </div>
 
+                <div class="field-group">
+                    <label for="customStateName">Custom state name (optional)</label>
+                    <div class="input-with-button-row">
+                        <input type="text" id="customStateName" placeholder="e.g. A" autocomplete="off" spellcheck="false">
+                        <button id="addCustomStateBtn" class="icon-square-btn" title="Add state with this name">+</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL 3: EXAMPLES LIBRARY -->
+            <section id="examplesSection" class="panel collapsible-panel">
+                <div class="panel-section-header">
+                    <div class="panel-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                        <span>EXAMPLES LIBRARY</span>
+                    </div>
+                    <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                </div>
+
+                <div id="examplesList" class="examples-list">
+                    <button class="example-item active" data-example="ending-1">
+                        <span>Binary strings ending in 1</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="example-item" data-example="starting-0">
+                        <span>Binary strings starting with 0</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="example-item" data-example="even-1s">
+                        <span>Even number of 1's</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="example-item" data-example="contains-11">
+                        <span>Contains substring 11</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="example-item" data-example="avoids-11">
+                        <span>Avoids substring 11</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                    <button class="example-item" data-example="divisible-n">
+                        <span>Binary numbers divisible by n</span>
+                        <span class="example-arrow">&rsaquo;</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- PANEL 4: BUILD FROM PROBLEM -->
+            <section id="problemSection" class="panel collapsible-panel">
+                <div class="panel-section-header">
+                    <div class="panel-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="m15 4-2 4 4-2"></path>
+                            <path d="M18 10a8 8 0 1 0-8 8"></path>
+                            <path d="m21 16-4-4"></path>
+                        </svg>
+                        <span>BUILD FROM PROBLEM</span>
+                    </div>
+                    <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                </div>
+
+                <div class="problem-builder-body">
+                    <label for="problemDescriptionInput">Enter a DFA problem description:</label>
+                    <textarea id="problemDescriptionInput" rows="2" placeholder="e.g. Create a DFA over { 0,1 } that accepts strings ending in 01."></textarea>
+                    
+                    <button id="generateDfaBtn" class="gradient-button full-button glow-pink">
+                        <span class="sparkle-symbol">✨</span>
+                        <span>Generate DFA</span>
+                    </button>
+
+                    <div id="problemSolverFeedback" class="problem-feedback-box" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- PANEL 5: PROJECT CONTROLS -->
+            <section id="projectSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>PROJECT</span>
+                </div>
+
+                <div class="project-buttons-grid">
+                    <button id="projectNewBtn" class="project-tile-btn" title="Create new blank DFA">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                        <span>New</span>
+                    </button>
+                    <button id="projectOpenBtn" class="project-tile-btn" title="Open DFA JSON file">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Open</span>
+                    </button>
+                    <button id="projectSaveBtn" class="project-tile-btn" title="Save DFA locally">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                        <span>Save</span>
+                    </button>
+                    <button id="projectExportJsonBtn" class="project-tile-btn" title="Export as JSON">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        <span>Export JSON</span>
+                    </button>
+                    <button id="projectExportPngBtn" class="project-tile-btn" title="Export high-res PNG">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <span>Export PNG</span>
+                    </button>
+                    <button id="projectExportSvgBtn" class="project-tile-btn" title="Export vector SVG">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                        <span>Export SVG</span>
+                    </button>
+                </div>
+                <input type="file" id="projectFileInput" accept=".json,application/json" style="display: none;">
             </section>
 
         </aside>
 
-
         <!-- =================================================
-             CENTER COLUMN
+             CENTER COLUMN: MAIN CANVAS & LOWER WORKSPACE PANELS
         ================================================== -->
-
         <section class="center-column">
 
-            <div
-                id="workspaceSection"
-                class="workspace-section"
-            >
-
-                <div class="workspace-heading">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            DESIGN STUDIO
-                        </span>
-
-                        <h2>
-                            DFA Visual Workspace
-                        </h2>
-
-                        <p>
-                            Build your deterministic finite automaton
-                            directly on the canvas.
-                        </p>
-
+            <!-- MAIN VISUAL CANVAS PANEL -->
+            <div id="workspaceSection" class="visual-panel panel">
+                <div class="visual-header">
+                    <div class="visual-mode-info">
+                        <span id="toolStatusDot" class="status-light-green"></span>
+                        <div class="mode-text">
+                            <span class="mode-title">VISUAL DESIGN MODE</span>
+                            <span class="mode-subtitle">Create and edit your DFA directly on the canvas.</span>
+                        </div>
                     </div>
+
+                    <div class="visual-header-actions">
+                        <button id="undoBtn" class="tool-button" title="Undo (Ctrl+Z)">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                            <span>Undo</span>
+                        </button>
+                        <button id="redoBtn" class="tool-button" title="Redo (Ctrl+Y)">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
+                            <span>Redo</span>
+                        </button>
+                        <button id="clearBtn" class="tool-button danger-outline" title="Clear Canvas">
+                            <span class="btn-cross">&times;</span>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CANVAS WRAPPER WITH SUBTLE HIGH-TECH GRID -->
+                <div id="canvasWrapper" class="canvas-wrapper">
+                    <canvas id="dfaCanvas"></canvas>
+
+                    <!-- FLOATING HINT (HIDDEN ONCE USER CLICKS) -->
+                    <div id="canvasHint" class="canvas-hint">
+                        <span class="hint-icon">✦</span>
+                        <strong>Click canvas to create state &bull; Shift+Click to connect</strong>
+                    </div>
+
+                    <!-- HIDDEN HELPER ELEMENT FOR ACCESSIBILITY / TOOL STATUS -->
+                    <span id="toolStatus" class="visually-hidden">Create State</span>
+                </div>
+            </div>
+
+            <!-- LOWER WORKSPACE PANELS (EXACT THREE-SECTION GRID) -->
+            <div class="lower-workspace-grid">
+
+                <!-- SECTION 1 (BOTTOM LEFT): TRANSITION TABLE + EXAMPLE INFORMATION -->
+                <div class="lower-left-stack">
+
+                    <!-- TRANSITION TABLE -->
+                    <section id="transitionSection" class="panel lower-card">
+                        <div class="panel-section-header">
+                            <div>
+                                <div class="panel-section-title">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                                    </svg>
+                                    <span>AUTOMATA FUNCTION</span>
+                                </div>
+                                <h3 class="card-headline">Transition Table</h3>
+                                <p class="card-subheadline">Automatically generated from the visual DFA.</p>
+                            </div>
+                            <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                        </div>
+
+                        <div id="transitionTable" class="transition-table-scroll">
+                            <div class="empty-table">Define an alphabet and create states.</div>
+                        </div>
+                    </section>
+
+                    <!-- EXAMPLE INFORMATION CARD -->
+                    <section id="exampleInfoSection" class="panel lower-card">
+                        <div class="panel-section-header">
+                            <div class="panel-section-title">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                <span>EXAMPLE INFORMATION</span>
+                            </div>
+                            <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                        </div>
+
+                        <div class="example-info-body">
+                            <div class="example-text-side">
+                                <h4 id="exampleTitle" class="example-title-display">Binary strings ending in 1</h4>
+                                <div id="exampleAlphabetBadge" class="example-alpha-badge">Alphabet: { 0, 1 }</div>
+                                <div class="example-desc-block">
+                                    <span class="desc-label">Description:</span>
+                                    <p id="exampleDescriptionText">This DFA accepts all binary strings that end with 1.</p>
+                                </div>
+                            </div>
+
+                            <div class="example-tests-side">
+                                <span class="tests-label">Sample Test Cases:</span>
+                                <div id="exampleTestCasesList" class="sample-tests-list">
+                                    <!-- Dynamic test cases -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
                 </div>
 
+                <!-- SECTION 2 (BOTTOM MIDDLE): INPUT TESTING -->
+                <section id="testingSection" class="panel lower-card">
+                    <div class="panel-section-header">
+                        <div class="panel-section-title">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <span>INPUT TESTING</span>
+                        </div>
+                        <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                    </div>
 
-                <!-- =========================================
-                     ALPHABET
-                ========================================== -->
-
-                <section
-                    id="alphabetSection"
-                    class="panel alphabet-panel"
-                >
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <span class="section-kicker">
-                                INPUT DEFINITION
-                            </span>
-
-                            <h2>
-                                Alphabet
-                            </h2>
-
+                    <div class="testing-body">
+                        <label for="inputString">Test an input string:</label>
+                        <div class="input-test-row">
+                            <input type="text" id="inputString" value="1011" placeholder="Enter string (e.g. 1011 or empty)" autocomplete="off" spellcheck="false">
+                            <button id="runBtn" class="play-circle-btn" title="Run input test" aria-label="Run test">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <polygon points="6 4 20 12 6 20 6 4"></polygon>
+                                </svg>
+                            </button>
                         </div>
 
-                        <span class="panel-icon">
-                            Σ
-                        </span>
-
-                    </div>
-
-
-                    <div class="alphabet-input-row">
-
-                        <input
-                            type="text"
-                            id="alphabet"
-                            placeholder="Example: 0, 1"
-                            autocomplete="off"
-                        >
-
-                        <button
-                            id="setAlphabetBtn"
-                            class="gradient-button"
-                        >
-                            Set Alphabet
-                        </button>
-
-                    </div>
-
-
-                    <div
-                        id="alphabetDisplay"
-                        class="alphabet-display"
-                    >
-                        No alphabet defined.
-                    </div>
-
-
-                    <!-- STATE NAMING -->
-
-                    <div class="state-naming-area">
-
-                        <div class="state-naming-title">
-
-                            <div>
-                                <span class="mini-kicker">
-                                    STATE NAMING
-                                </span>
-
-                                <strong>
-                                    State Label Style
-                                </strong>
+                        <!-- RESULT BADGE -->
+                        <div id="result" class="result-badge-container">
+                            <div class="result-pill accepted">
+                                <span class="pill-check">✓</span>
+                                <span class="pill-text">Result: <strong>Accepted</strong></span>
                             </div>
-
-                            <span class="naming-help">
-                                Choose how new states are named
-                            </span>
-
                         </div>
 
-
-                        <div class="state-naming-controls">
-
-                            <select id="stateNamingMode">
-
-                                <option value="q">
-                                    q0, q1, q2...
-                                </option>
-
-                                <option value="letters">
-                                    A, B, C, D...
-                                </option>
-
-                                <option value="custom">
-                                    Custom
-                                </option>
-
-                            </select>
-
-
-                            <input
-                                type="text"
-                                id="customStateName"
-                                placeholder="Custom state name"
-                                disabled
-                            >
-
+                        <!-- EXECUTION PATH -->
+                        <div class="execution-path-box">
+                            <span class="path-label">Execution Path</span>
+                            <div id="executionPath" class="path-flow">A &rarr; B &rarr; C &rarr; C</div>
                         </div>
 
+                        <!-- STEP-BY-STEP TRACE ACCORDION -->
+                        <div class="step-trace-container">
+                            <div class="step-trace-header" id="stepTraceToggle">
+                                <span class="trace-arrow">▾</span>
+                                <span class="trace-title">Step-by-Step Trace</span>
+                            </div>
+                            <div id="executionResult" class="step-trace-list">
+                                <!-- Steps rendered dynamically -->
+                            </div>
+                        </div>
                     </div>
-
                 </section>
 
+                <!-- SECTION 3 (BOTTOM RIGHT): DFA VALIDATION -->
+                <section id="validationSection" class="panel lower-card">
+                    <div class="panel-section-header">
+                        <div class="panel-section-title">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <span>VALIDATION</span>
+                        </div>
+                        <button class="panel-toggle-btn" aria-label="Toggle section">▾</button>
+                    </div>
 
-                <!-- =========================================
-                     VISUAL DESIGN MODE
-                ========================================== -->
-
-                <section class="panel visual-panel">
-
-                    <div class="visual-header">
-
-                        <div>
-
-                            <span class="section-kicker">
-                                VISUAL DESIGN MODE
-                            </span>
-
-                            <div class="tool-status">
-
-                                <span
-                                    id="toolStatusDot"
-                                    class="status-light"
-                                ></span>
-
-                                <span id="toolStatus">
-                                    Select a tool
-                                </span>
-
+                    <div class="validation-body">
+                        <!-- LARGE STATUS BANNER -->
+                        <div id="validationStatusCard" class="validation-status-card valid">
+                            <div class="status-icon-circle">✓</div>
+                            <div class="status-card-text">
+                                <strong id="valStatusTitle">Valid and Complete DFA</strong>
+                                <span id="valStatusSubtitle">The automaton is deterministic and complete.</span>
                             </div>
-
                         </div>
 
+                        <!-- DETAILED VALIDATION CHECKLIST -->
+                        <ul id="validationChecklist" class="validation-checklist">
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text">Alphabet is defined</span>
+                            </li>
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text" id="valInitialText">Initial state is set (A)</span>
+                            </li>
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text" id="valAcceptingText">Accepting state(s) defined (C)</span>
+                            </li>
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text">No conflicting transitions</span>
+                            </li>
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text">All transitions are valid</span>
+                            </li>
+                            <li class="check-item passed">
+                                <span class="item-circle">✓</span>
+                                <span class="item-text" id="valMissingText">No missing transitions</span>
+                            </li>
+                        </ul>
 
-                        <div class="visual-header-actions">
-
-                            <button
-                                id="undoBtn"
-                                class="tool-button"
-                                title="Undo previous action"
-                            >
-                                ↶ Undo
-                            </button>
-
-                            <button
-                                id="redoBtn"
-                                class="tool-button"
-                                title="Redo action"
-                            >
-                                ↷ Redo
-                            </button>
-
-                            <button
-                                id="clearBtn"
-                                class="tool-button danger-outline"
-                                title="Clear automaton"
-                            >
-                                × Clear
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- CANVAS -->
-
-                    <div
-                        id="canvasWrapper"
-                        class="canvas-wrapper"
-                    >
-
-                        <canvas id="dfaCanvas"></canvas>
-
-
-                        <div
-                            id="canvasHint"
-                            class="canvas-hint"
-                        >
-
-                            <span class="hint-icon">
-                                ✦
-                            </span>
-
-                            <strong>
-                                Click anywhere to create a state
-                            </strong>
-
-                            <small>
-                                Or use Designer Controls below
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- SHORTCUT GUIDE -->
-
-                    <div class="shortcut-strip">
-
-                        <span>
-                            <kbd>CLICK</kbd>
-                            Create state
-                        </span>
-
-                        <span>
-                            <kbd>DOUBLE CLICK</kbd>
-                            Final state
-                        </span>
-
-                        <span>
-                            <kbd>RIGHT CLICK</kbd>
-                            Start state
-                        </span>
-
-                        <span>
-                            <kbd>DRAG</kbd>
-                            Move state
-                        </span>
-
-                        <span>
-                            <kbd>SHIFT + CLICK</kbd>
-                            Create transition
-                        </span>
-
-                        <span>
-                            <kbd>SHIFT + CLICK SAME STATE</kbd>
-                            Self-loop
-                        </span>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =========================================
-                     TRANSITION TABLE
-                ========================================== -->
-
-                <section
-                    id="transitionSection"
-                    class="panel transition-panel"
-                >
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <span class="section-kicker">
-                                AUTOMATA FUNCTION
-                            </span>
-
-                            <h2>
-                                Transition Table
-                            </h2>
-
-                            <p>
-                                Automatically generated from
-                                the visual DFA.
-                            </p>
-
-                        </div>
-
-                        <span class="panel-icon">
-                            →
-                        </span>
-
-                    </div>
-
-
-                    <div
-                        id="transitionTable"
-                        class="transition-table"
-                    >
-
-                        <div class="empty-table">
-                            Define an alphabet and create states.
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- =========================================
-                     DESIGNER CONTROLS
-                ========================================== -->
-
-                <section
-                    id="controlsSection"
-                    class="panel controls-panel"
-                >
-
-                    <div class="panel-heading">
-
-                        <div>
-
-                            <span class="section-kicker">
-                                ALTERNATIVE INPUT
-                            </span>
-
-                            <h2>
-                                Designer Controls
-                            </h2>
-
-                            <p>
-                                Use these buttons if you prefer
-                                not to use mouse shortcuts.
-                            </p>
-
-                        </div>
-
-                        <span class="panel-icon">
-                            ⌘
-                        </span>
-
-                    </div>
-
-
-                    <div class="designer-controls">
-
-                        <button
-                            class="designer-button"
-                            data-tool="create"
-                        >
-                            <span>＋</span>
-                            <div>
-                                <strong>Create State</strong>
-                                <small>Click canvas to create</small>
-                            </div>
+                        <!-- OPTIONAL COMPLETE DFA WITH DEAD STATE ACTION -->
+                        <button id="completeDfaBtn" class="secondary-button compact-btn" style="display: none; margin-top: 10px; width: 100%;">
+                            + Add Dead State &amp; Complete DFA
                         </button>
-
-
-                        <button
-                            class="designer-button"
-                            data-tool="start"
-                        >
-                            <span>→</span>
-                            <div>
-                                <strong>Set Start</strong>
-                                <small>Click a state</small>
-                            </div>
-                        </button>
-
-
-                        <button
-                            class="designer-button"
-                            data-tool="final"
-                        >
-                            <span>◎</span>
-                            <div>
-                                <strong>Set Final</strong>
-                                <small>Click a state</small>
-                            </div>
-                        </button>
-
-
-                        <button
-                            class="designer-button"
-                            data-tool="transition"
-                        >
-                            <span>↗</span>
-                            <div>
-                                <strong>Create Transition</strong>
-                                <small>Click source then target</small>
-                            </div>
-                        </button>
-
-
-                        <button
-                            class="designer-button"
-                            data-tool="move"
-                        >
-                            <span>✋</span>
-                            <div>
-                                <strong>Move State</strong>
-                                <small>Drag a state</small>
-                            </div>
-                        </button>
-
-
-                        <button
-                            id="deleteSelectedBtn"
-                            class="designer-button danger-control"
-                        >
-                            <span>×</span>
-                            <div>
-                                <strong>Delete Selected</strong>
-                                <small>Remove selected state</small>
-                            </div>
-                        </button>
-
                     </div>
-
-
-                    <div class="controls-help">
-
-                        <strong>
-                            How it works
-                        </strong>
-
-                        <p>
-                            Choose a control above, then click the
-                            required object on the canvas. Your
-                            keyboard and mouse shortcuts continue
-                            to work normally.
-                        </p>
-
-                    </div>
-
                 </section>
 
             </div>
 
         </section>
 
-
         <!-- =================================================
-             RIGHT COLUMN
+             RIGHT COLUMN: CANVAS TOOLS, SHORTCUTS, EXECUTION & HISTORY
         ================================================== -->
-
         <aside class="right-column">
 
-            <!-- INPUT TESTING -->
-
-            <section
-                id="testingSection"
-                class="panel testing-panel"
-            >
-
-                <div class="panel-heading">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            TESTING
-                        </span>
-
-                        <h2>
-                            Input Testing
-                        </h2>
-
-                    </div>
-
-                    <span class="panel-icon">
-                        ▶
-                    </span>
-
+            <!-- PANEL 1: CANVAS CONTROLS -->
+            <section id="canvasControlsSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>CANVAS CONTROLS</span>
                 </div>
 
-
-                <label for="inputString">
-                    Input String
-                </label>
-
-                <input
-                    type="text"
-                    id="inputString"
-                    placeholder="Example: 0101"
-                    autocomplete="off"
-                >
-
-
-                <button
-                    id="runBtn"
-                    class="gradient-button full-button"
-                >
-                    ▶ Run DFA
-                </button>
-
-
-                <div
-                    id="result"
-                    class="result-box"
-                >
-
-                    <div class="empty-result">
-                        No input tested yet.
-                    </div>
-
+                <div class="canvas-controls-row">
+                    <button id="zoomInBtn" class="control-square-btn" title="Zoom In (+)">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </button>
+                    <button id="zoomOutBtn" class="control-square-btn" title="Zoom Out (-)">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </button>
+                    <button id="resetViewBtn" class="control-square-btn" title="Reset Zoom &amp; Pan">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                    </button>
+                    <button id="fitCanvasBtn" class="control-square-btn" title="Fit Automaton to Canvas">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                    </button>
+                    <button id="autoArrangeBtn" class="auto-arrange-btn" title="Auto-layout states neatly">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+                        <span>Auto Arrange</span>
+                    </button>
                 </div>
-
             </section>
 
-
-            <!-- EXECUTION ENGINE -->
-
-            <section
-                id="executionSection"
-                class="panel execution-panel"
-            >
-
-                <div class="panel-heading">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            EXECUTION ENGINE
-                        </span>
-
-                        <h2>
-                            DFA Execution
-                        </h2>
-
-                        <p>
-                            Step-by-step processing result
-                        </p>
-
-                    </div>
-
-                    <span class="panel-icon">
-                        ⌁
-                    </span>
-
+            <!-- PANEL 2: CANVAS SHORTCUTS (EXACT APPROVED SIDEBAR) -->
+            <section id="shortcutsSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <line x1="6" y1="8" x2="6" y2="8"></line>
+                        <line x1="10" y1="8" x2="10" y2="8"></line>
+                        <line x1="14" y1="8" x2="14" y2="8"></line>
+                        <line x1="18" y1="8" x2="18" y2="8"></line>
+                        <line x1="6" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="18" y2="12"></line>
+                        <line x1="9" y1="16" x2="15" y2="16"></line>
+                    </svg>
+                    <span>CANVAS SHORTCUTS</span>
                 </div>
 
-
-                <div
-                    id="executionResult"
-                    class="execution-result"
-                >
-
-                    <div class="execution-empty">
-
-                        <div class="execution-icon">
-                            ⌁
-                        </div>
-
-                        <strong>
-                            No input tested yet
-                        </strong>
-
-                        <small>
-                            Enter an input string and click Run DFA.
-                        </small>
-
+                <div class="shortcuts-list">
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">CLICK</span>
+                        <span class="shortcut-desc">Create state</span>
                     </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">DOUBLE CLICK</span>
+                        <span class="shortcut-desc">Final state</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">RIGHT CLICK</span>
+                        <span class="shortcut-desc">Start state</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">DRAG</span>
+                        <span class="shortcut-desc">Move state</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">SHIFT + CLICK</span>
+                        <span class="shortcut-desc">Create transition</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">SHIFT + CLICK SAME STATE</span>
+                        <span class="shortcut-desc">Create self-loop</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">ALT + CLICK</span>
+                        <span class="shortcut-desc">Delete state or transition</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge key-badge">DEL</span>
+                        <span class="shortcut-desc">Delete selected state or transition</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">DRAG TRANSITION</span>
+                        <span class="shortcut-desc">Adjust transition curve</span>
+                    </div>
+                    <div class="shortcut-row">
+                        <span class="shortcut-badge mouse-badge">DOUBLE-CLICK TRANSITION</span>
+                        <span class="shortcut-desc">Reset transition curve</span>
+                    </div>
+                </div>
+            </section>
 
+            <!-- PANEL 3: EXECUTION CONTROLS -->
+            <section id="executionControlsSection" class="panel compact-panel">
+                <div class="panel-section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>EXECUTION CONTROLS</span>
                 </div>
 
+                <div class="exec-buttons-row">
+                    <button id="execPrevBtn" class="transport-btn" title="Previous Step">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="3"></line></svg>
+                        <span>Previous</span>
+                    </button>
+                    <button id="execPlayBtn" class="transport-btn play-active" title="Play Execution">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        <span>Play</span>
+                    </button>
+                    <button id="execPauseBtn" class="transport-btn" title="Pause Execution">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                        <span>Pause</span>
+                    </button>
+                    <button id="execNextBtn" class="transport-btn" title="Next Step">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="3"></line></svg>
+                        <span>Next</span>
+                    </button>
+                    <button id="execResetBtn" class="transport-btn" title="Reset Execution">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                        <span>Reset</span>
+                    </button>
+                </div>
+
+                <div class="speed-slider-row">
+                    <span class="speed-label">Speed</span>
+                    <input type="range" id="execSpeedSlider" min="100" max="1500" step="50" value="500">
+                    <span id="execSpeedDisplay" class="speed-value">500 ms</span>
+                </div>
+            </section>
+
+            <!-- PANEL 4: ACTIVITY HISTORY -->
+            <section id="activitySection" class="panel compact-panel activity-panel">
+                <div class="panel-section-header">
+                    <div class="panel-section-title">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <span>ACTIVITY HISTORY</span>
+                    </div>
+                    <button id="clearHistoryBtn" class="clear-history-link" title="Clear activity log">Clear</button>
+                </div>
+
+                <div id="activityHistory" class="activity-history-scroll">
+                    <div class="empty-history">No activity yet.</div>
+                </div>
             </section>
 
         </aside>
 
     </main>
 
+    <!-- =====================================================
+         SETTINGS MODAL DIALOG
+    ====================================================== -->
+    <div id="settingsModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Workstation Settings</h3>
+                <button id="closeSettingsBtn" class="icon-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <div>
+                        <strong>Show Canvas Grid</strong>
+                        <small>Subtle neon alignment grid</small>
+                    </div>
+                    <input type="checkbox" id="settingShowGrid" checked>
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <strong>Snap to Grid</strong>
+                        <small>Align states when moving</small>
+                    </div>
+                    <input type="checkbox" id="settingSnapGrid">
+                </div>
+                <div class="setting-item">
+                    <div>
+                        <strong>Auto-Validate Automaton</strong>
+                        <small>Check DFA rules after each edit</small>
+                    </div>
+                    <input type="checkbox" id="settingAutoValidate" checked>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveSettingsBtn" class="gradient-button compact-btn">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden compatibility elements to prevent any legacy handler errors -->
+    <div style="display: none;">
+        <span id="stateCount">0</span>
+        <span id="transitionCount">0</span>
+        <span id="startStateInfo">—</span>
+        <span id="finalStateInfo">—</span>
+        <span id="alphabetInfo">—</span>
+        <span id="alphabetInfoCount">0</span>
+        <div id="dfaStatus"></div>
+        <button id="themeBtn"></button>
+        <button id="deleteSelectedBtn"></button>
+        <span id="systemStatusText">Ready to build</span>
+    </div>
 
     <script src="js/app.js"></script>
-
 </body>
 
 </html>
